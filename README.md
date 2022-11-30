@@ -21,7 +21,7 @@ echo castAny[char](a) # 'A'
 
 + Do not use `Any` to store GC'ed types (`seq`, `string`, ...), unless you fully understand the memory-managing strategy you choose.
 
-+ Due to some technical limitations, You can not have a `seq` of `Any`, but you can have an `array` of them.
++ Due to some technical limitations, One cannot have a `seq` of `Any`, but can have an `array` of them.
 
 + As `std::any` was defined in C++17  (Nim currently uses C++14), this module requires you to pass a flag to the backend C++ compiler (via `--passC`), telling it to use the new standard. However, if you're with GCC or Clang, it is automatically done by this module, so you don't have to worry about that.
 
