@@ -10,7 +10,7 @@ from ./cppany/utils import inPlaceType, TInPlaceType
 
 {.push header: "<any>".}
 
-type Any* {.importcpp: "std::any".} = object
+type Any* {.importcpp: "std::any", cppNonPod.} = object
 
 proc initAny*(): Any {.constructor, importcpp: "'0()", raises: [].}
 
@@ -27,6 +27,8 @@ proc resetAny*(self: var Any) {.importcpp: "#.reset()", raises: [].}
 proc castAny*[T](self: Any): T {.importcpp: "std::any_cast<'0>(#)", raises: [BadAnyCast].}
 
 proc castAny*[T](self: ptr Any): ptr T {.importcpp: "std::any_cast<'0>(#)", raises: [].} #maybe nil
+  #                               ^ Can be nil!
+  ## This can return `nil`.
 
 proc initAnyVariadicImpl[T](_: TInPlaceType[T]): Any {.constructor, varargs, importcpp: "'0(@)", raises: [CStdException].}
 
@@ -43,7 +45,7 @@ macro initAny*[T](typ: typedesc[T], args: varargs[typed]): Any =
     result.add(a)
 
 converter toAny*[T](self: T): Any {.importcpp: "(('1) #)", raises: [CStdException].}
-  # `('1)` is correct. It converts the argument to the expected type before converting into `std::any` (The later will be done automatically.)
+  # `('1)` is correct. It converts the argument to the expected type before converting into `std::any`. (The later will be done automatically.)
 
 export exceptions.BadAnyCast
 export exceptions.what
