@@ -25,6 +25,8 @@ echo castAny[char](a) # 'A'
 
 + As `std::any` was defined in C++17  (Nim currently uses C++14), this module requires you to pass a flag to the backend C++ compiler (via `--passC`), telling it to use the new standard. However, if you're with GCC or Clang, it is automatically done by this module, so you don't have to worry about that.
 
++ In a project that uses this module, the `{.register.}` pragma cannot be used, as it's incompatible with C++17.
+
 ### References
 
 + <https://en.cppreference.com/w/cpp/utility/any>
